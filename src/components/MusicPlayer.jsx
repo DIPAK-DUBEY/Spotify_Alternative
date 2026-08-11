@@ -77,7 +77,8 @@ export default function MusicPlayer({
   onPrev,
   onSeekFraction,
   onChangePlaylist,
-  onShowPlaylist
+  onShowPlaylist,
+  onOpenFaq
 }) {
   const { playlistLabel } = appConfig;
   const artwork = currentTrack?.artwork || playlist?.artwork || null;
@@ -187,7 +188,7 @@ export default function MusicPlayer({
           </div>
         </div>
 
-        <div className="mt-2 flex items-center justify-between gap-3 md:mt-3">
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 md:mt-3">
           <button
             type="button"
             onClick={onShowPlaylist}
@@ -222,6 +223,14 @@ export default function MusicPlayer({
             className="touch-target font-hand text-xs text-cream/75 underline-offset-4 transition-colors duration-200 hover:text-ivory md:text-sm"
           >
             Change playlist
+          </button>
+          <button
+            type="button"
+            onClick={onOpenFaq}
+            aria-label="How it works — FAQ"
+            className="touch-target grid h-9 w-9 shrink-0 place-items-center rounded-full border border-cream/25 text-sm text-cream/70 transition-colors duration-200 hover:border-gold/60 hover:text-ivory md:h-10 md:w-10"
+          >
+            ?
           </button>
         </div>
 

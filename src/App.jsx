@@ -17,6 +17,7 @@ export default function App() {
   const [error, setError] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [showPlaylist, setShowPlaylist] = useState(false);
+  const [showFaq, setShowFaq] = useState(false);
   const {
     playlist,
     tracks,
@@ -95,6 +96,9 @@ export default function App() {
       onShowPlaylist={() => setShowPlaylist(true)}
       onClosePlaylist={() => setShowPlaylist(false)}
       showPlaylist={showPlaylist}
+      onOpenFaq={() => setShowFaq(true)}
+      onCloseFaq={() => setShowFaq(false)}
+      showFaq={showFaq}
       tracks={tracks}
       currentIndex={currentIndex}
       totalCount={totalCount}

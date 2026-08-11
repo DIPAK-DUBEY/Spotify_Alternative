@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import TulipMark from "./TulipMark.jsx";
 import { appConfig } from "../data/config.js";
 
-export default function PlaylistInput({ isChanging, error, inputValue, onInputChange, onSubmit, onCancel }) {
+export default function PlaylistInput({ isChanging, error, inputValue, onInputChange, onSubmit, onCancel, onOpenFaq }) {
   const { prompt, personal } = appConfig;
 
   function handleSubmit(e) {
@@ -58,6 +58,17 @@ export default function PlaylistInput({ isChanging, error, inputValue, onInputCh
           </button>
         )}
       </form>
+
+      <button
+        type="button"
+        onClick={onOpenFaq}
+        className="touch-target mt-5 inline-flex items-center gap-2 font-hand text-base text-cream/75 underline-offset-4 transition-colors duration-200 hover:text-ivory md:text-lg"
+      >
+        <span className="grid h-5 w-5 place-items-center rounded-full border border-cream/40 text-xs" aria-hidden="true">
+          ?
+        </span>
+        How it works
+      </button>
 
       {error && (
         <motion.p

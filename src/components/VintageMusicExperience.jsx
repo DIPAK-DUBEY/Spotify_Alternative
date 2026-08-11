@@ -7,6 +7,7 @@ import PlaylistInput from "./PlaylistInput.jsx";
 import PlaylistPanel from "./PlaylistPanel.jsx";
 import LoadingMemory from "./LoadingMemory.jsx";
 import MusicPlayer from "./MusicPlayer.jsx";
+import FaqPanel from "./FaqPanel.jsx";
 import TulipMark from "./TulipMark.jsx";
 import YouTubePlayer from "./YouTubePlayer.jsx";
 import { appConfig } from "../data/config.js";
@@ -34,6 +35,9 @@ export default function VintageMusicExperience({
   onShowPlaylist,
   onClosePlaylist,
   showPlaylist,
+  onOpenFaq,
+  onCloseFaq,
+  showFaq,
   tracks,
   currentIndex,
   totalCount,
@@ -97,6 +101,7 @@ export default function VintageMusicExperience({
               onInputChange={onInputChange}
               onSubmit={onSubmit}
               onCancel={onCancelChange}
+              onOpenFaq={onOpenFaq}
             />
           </motion.div>
         )}
@@ -141,6 +146,7 @@ export default function VintageMusicExperience({
               onSeekFraction={onSeekFraction}
               onChangePlaylist={onChangePlaylist}
               onShowPlaylist={onShowPlaylist}
+              onOpenFaq={onOpenFaq}
             />
           </motion.div>
         )}
@@ -163,6 +169,8 @@ export default function VintageMusicExperience({
           onPlayTrack={onPlayTrack}
         />
       )}
+
+      <FaqPanel open={showFaq} onClose={onCloseFaq} />
 
       {!isPlayer && (
         <footer className="pointer-events-none absolute inset-x-0 bottom-0 z-20 pb-[max(env(safe-area-inset-bottom),1rem)] text-center">
