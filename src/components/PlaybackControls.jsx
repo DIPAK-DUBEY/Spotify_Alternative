@@ -1,12 +1,12 @@
 export default function PlaybackControls({ artwork, isPlaying, lidOpen, onToggle }) {
-  const caption = lidOpen ? (isPlaying ? "baj raha hai" : "Spotify ke play pe tap karo") : "play";
+  const caption = lidOpen ? (isPlaying ? "now playing" : "tap play on Spotify") : "play";
 
   return (
     <div className="flex shrink-0 flex-col items-center gap-2">
       <button
         type="button"
         onClick={onToggle}
-        aria-label={lidOpen ? "Spotify player chhupao" : "Spotify player dikhao"}
+        aria-label={lidOpen ? "Hide Spotify player" : "Show Spotify player"}
         aria-expanded={lidOpen}
         className="focus-ring relative h-24 w-24 touch-target rounded-full md:h-28 md:w-28"
       >

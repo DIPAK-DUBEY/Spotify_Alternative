@@ -91,7 +91,7 @@ export default function PlaylistPanel({
         <div className="absolute inset-0 z-40 flex items-end justify-center md:items-center">
           <motion.button
             type="button"
-            aria-label="Band karo"
+            aria-label="Close"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -102,7 +102,7 @@ export default function PlaylistPanel({
           <motion.div
             role="dialog"
             aria-modal="true"
-            aria-label="Playlist ke geet"
+            aria-label="Playlist songs"
             initial={{ y: 60, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 48, opacity: 0, scale: 0.98 }}
@@ -122,19 +122,19 @@ export default function PlaylistPanel({
                 </span>
               )}
               <div className="min-w-0 flex-1">
-                <p className="truncate font-hand text-base text-cream/55 md:text-lg">
-                  {playlist?.name || "Purane Geet"}
+                <p className="truncate font-hand text-base text-cream/75 md:text-lg">
+                  {playlist?.name || "Old Songs"}
                 </p>
                 <p className="mt-0.5 truncate font-serif2 text-sm text-ivory md:text-base">
-                  {tracks.length} geet
-                  {canLoadMore && totalCount > tracks.length ? ` · ${totalCount} kul` : ""}
-                  {currentIndex >= 0 && " · ab baj raha hai"}
+                  {tracks.length} songs
+                  {canLoadMore && totalCount > tracks.length ? ` · ${totalCount} total` : ""}
+                  {currentIndex >= 0 && " · now playing"}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Band karo"
+                aria-label="Close"
                 className="touch-target grid h-10 w-10 shrink-0 place-items-center rounded-full border border-sand/25 text-cream/70 transition-colors duration-200 hover:border-gold/60 hover:text-ivory"
               >
                 <svg viewBox="0 0 12 12" className="h-3.5 w-3.5" aria-hidden="true">
@@ -145,8 +145,8 @@ export default function PlaylistPanel({
 
             <div ref={scrollRef} className="song-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 py-2 md:px-3">
               {tracks.length === 0 ? (
-                <p className="px-4 py-10 text-center font-hand text-lg text-cream/50">
-                  Abhi koi geet nahi — thodi der baad playlist bhar jayegi.
+                <p className="px-4 py-10 text-center font-hand text-lg text-cream/65">
+                  No songs yet — your playlist will fill up shortly.
                 </p>
               ) : (
                 tracks.map((track, index) => {
@@ -171,7 +171,7 @@ export default function PlaylistPanel({
                       {isCurrent ? (
                         <Equalizer playing={isPlaying} />
                       ) : (
-                        <span className="font-serif2 text-xs tabular-nums text-cream/40 md:text-sm">
+                        <span className="font-serif2 text-xs tabular-nums text-cream/55 md:text-sm">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                       )}
@@ -183,15 +183,15 @@ export default function PlaylistPanel({
                           isCurrent ? "text-gold" : "text-ivory"
                         }`}
                       >
-                        {track.title || "Unknown geet"}
+                        {track.title || "Unknown song"}
                       </p>
-                      <p className="mt-0.5 truncate text-xs text-cream/60">
-                        {track.artist || "Purana geet"}
+                      <p className="mt-0.5 truncate text-xs text-cream/75">
+                        {track.artist || "Old song"}
                       </p>
                     </div>
                     <span
                       className={`shrink-0 text-xs tabular-nums ${
-                        isCurrent ? "text-gold/90" : "text-cream/40"
+                        isCurrent ? "text-gold/90" : "text-cream/55"
                       }`}
                     >
                       {formatTime(track.videoDuration)}
@@ -211,13 +211,13 @@ export default function PlaylistPanel({
                   className="touch-target w-full rounded-md border border-gold/40 bg-gradient-to-b from-umber/80 to-earth/90 font-serif2 text-[0.72rem] uppercase tracking-[0.25em] text-ivory transition-all duration-200 hover:border-gold/70 hover:from-umber/90 hover:to-earth active:scale-[0.98] disabled:cursor-wait disabled:opacity-60 md:text-[0.75rem]"
                 >
                   {isLoadingMore
-                    ? "Aur geet laa rahe hain…"
-                    : `Aur geet laao (${Math.max(0, totalCount - tracks.length)})`}
+                    ? "Loading more songs…"
+                    : `Load more songs (${Math.max(0, totalCount - tracks.length)})`}
                 </button>
                 {(loadMoreError || truncated) && (
                   <p className="mt-2 text-center font-hand text-xs text-gold/80">
                     {truncated
-                      ? "YouTube tak pahunch thodi der ke liye ruk gayi — baad mein dobara koshish karo."
+                      ? "YouTube access paused for a moment — try again later."
                       : loadMoreError}
                   </p>
                 )}

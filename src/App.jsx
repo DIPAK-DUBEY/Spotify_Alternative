@@ -4,11 +4,11 @@ import { parsePlaylistUrl } from "./utils/spotify.js";
 import { useYouTubePlaylist } from "./hooks/useYouTubePlaylist.js";
 
 const ERROR_COPY = {
-  empty: "Pehle playlist ka link daalo.",
-  invalid: "Ye playlist link thoda galat lag raha hai.",
-  shortlink: "Ye chhota link hai — Spotify app se playlist ka full link copy karke laao.",
-  notfound: "Ye playlist hum tak nahi pahunch paayi. Private ya delete ho sakti hai.",
-  network: "Spotify tak pahunch nahi paaye. Thodi der baad dobara koshish karo."
+  empty: "Please paste a playlist link first.",
+  invalid: "This playlist link doesn't look right.",
+  shortlink: "This is a short link — open the playlist in the Spotify app and copy the full link.",
+  notfound: "We couldn't find this playlist. It may be private or deleted.",
+  network: "We couldn't reach Spotify. Please try again in a moment."
 };
 
 export default function App() {
@@ -64,6 +64,8 @@ export default function App() {
   function handleChangePlaylist() {
     setIsChanging(true);
     setPhase("intro");
+    setInputValue("");
+    setError(null);
   }
 
   function handleCancelChange() {

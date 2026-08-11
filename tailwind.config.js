@@ -16,8 +16,8 @@ export default {
       },
       fontFamily: {
         dev: ['"Noto Serif Devanagari"', "serif"],
-        serif2: ['"Instrument Serif"', "Georgia", "serif"],
-        hand: ['"Caveat"', "cursive"]
+        serif2: ['"Instrument Serif"', '"Noto Serif Devanagari"', "Georgia", "serif"],
+        hand: ['"Kalam"', '"Caveat"', '"Noto Serif Devanagari"', "cursive"]
       },
       transitionTimingFunction: {
         cin: "cubic-bezier(0.22, 1, 0.36, 1)"

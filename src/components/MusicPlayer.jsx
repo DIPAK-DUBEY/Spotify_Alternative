@@ -99,11 +99,11 @@ export default function MusicPlayer({
           <Vinyl artwork={artwork} isPlaying={isPlaying} />
 
           <div className="min-w-0 flex-1">
-            <p className="truncate font-hand text-[10px] leading-none text-cream/50 md:text-xs">
-              {playlistLabel}: {playlist?.name || "Purane Geet"}
+            <p className="truncate font-hand text-[10px] leading-none text-cream/70 md:text-xs">
+              {playlistLabel}: {playlist?.name || "Old Songs"}
               {trackCount > 0 && (
-                <span className="ml-1.5 text-[10px] text-cream/40">
-                  · {trackCount}{canLoadMore && totalCount > trackCount ? ` / ${totalCount}` : ""} geet
+                <span className="ml-1.5 text-[10px] text-cream/55">
+                  · {trackCount}{canLoadMore && totalCount > trackCount ? ` / ${totalCount}` : ""} songs
                 </span>
               )}
             </p>
@@ -112,19 +112,19 @@ export default function MusicPlayer({
                 <p className="truncate font-serif2 text-[clamp(0.9rem,3.2vw,1.25rem)] leading-tight text-ivory">
                   {currentTrack.title}
                 </p>
-                <p className="mt-0.5 truncate text-[clamp(0.68rem,2vw,0.85rem)] text-cream/70">
-                  {currentTrack.artist || "Purana geet"}
+                <p className="mt-0.5 truncate text-[clamp(0.68rem,2vw,0.85rem)] text-cream/85">
+                  {currentTrack.artist || "Old song"}
                 </p>
               </div>
             ) : (
               <div className="mt-1 min-w-0">
                 <p className="truncate font-serif2 text-[clamp(0.9rem,3.2vw,1.25rem)] leading-tight text-ivory/90">
-                  {canLoadMore && trackCount === 0 ? "Geet aa rahe hain…" : "Pehla geet sunne ko tayyar"}
+                  {canLoadMore && trackCount === 0 ? "Songs are loading…" : "Ready to play your first song"}
                 </p>
-                <p className="mt-0.5 text-[clamp(0.68rem,2vw,0.85rem)] text-cream/60">
+                <p className="mt-0.5 text-[clamp(0.68rem,2vw,0.85rem)] text-cream/80">
                   {canLoadMore && trackCount === 0
-                    ? "Play dabao — pehla geet khud baj jayega"
-                    : "Play dabao — yaadein shuru ho jayengi"}
+                    ? "Press play — your first song starts on its own"
+                    : "Press play — the memories begin"}
                 </p>
               </div>
             )}
@@ -134,7 +134,7 @@ export default function MusicPlayer({
             <button
               type="button"
               onClick={onPrev}
-              aria-label="Pichla geet"
+              aria-label="Previous song"
               className="touch-target grid h-10 w-10 place-items-center rounded-full text-cream/70 transition-colors duration-200 hover:text-ivory md:h-11 md:w-11"
             >
               <PrevGlyph />
@@ -142,7 +142,7 @@ export default function MusicPlayer({
             <button
               type="button"
               onClick={onToggle}
-              aria-label={isPlaying ? "Roko" : "Bajao"}
+              aria-label={isPlaying ? "Pause" : "Play"}
               className={`touch-target grid h-11 w-11 place-items-center rounded-full border transition-all duration-300 md:h-14 md:w-14 ${
                 isPlaying
                   ? "border-cream/40 bg-ink/70 text-gold/90"
@@ -154,7 +154,7 @@ export default function MusicPlayer({
             <button
               type="button"
               onClick={onNext}
-              aria-label="Agla geet"
+              aria-label="Next song"
               className="touch-target grid h-10 w-10 place-items-center rounded-full text-cream/70 transition-colors duration-200 hover:text-ivory md:h-11 md:w-11"
             >
               <NextGlyph />
@@ -180,9 +180,9 @@ export default function MusicPlayer({
               style={{ left: `${fraction * 100}%` }}
             />
           </div>
-          <div className="flex shrink-0 items-baseline gap-1 whitespace-nowrap text-[10px] tabular-nums text-cream/55 md:text-xs">
+          <div className="flex shrink-0 items-baseline gap-1 whitespace-nowrap text-[10px] tabular-nums text-cream/70 md:text-xs">
             <span>{formatTime(progress.current)}</span>
-            <span className="text-cream/35">/</span>
+            <span className="text-cream/50">/</span>
             <span>{progress.duration > 0 ? formatTime(progress.duration) : "--:--"}</span>
           </div>
         </div>
@@ -210,8 +210,8 @@ export default function MusicPlayer({
               className="touch-target font-hand text-xs text-gold/90 underline-offset-4 transition-colors duration-200 hover:text-gold disabled:cursor-wait disabled:text-gold/50 md:text-sm"
             >
               {isLoadingMore
-                ? "Aur geet laa rahe hain…"
-                : `Aur geet laao (${totalCount - trackCount})`}
+                ? "Loading more songs…"
+                : `Load more songs (${totalCount - trackCount})`}
             </button>
           )}
 
@@ -219,7 +219,7 @@ export default function MusicPlayer({
           <button
             type="button"
             onClick={onChangePlaylist}
-            className="touch-target font-hand text-xs text-cream/55 underline-offset-4 transition-colors duration-200 hover:text-cream/85 md:text-sm"
+            className="touch-target font-hand text-xs text-cream/75 underline-offset-4 transition-colors duration-200 hover:text-ivory md:text-sm"
           >
             Change playlist
           </button>
@@ -228,7 +228,7 @@ export default function MusicPlayer({
         {(loadMoreError || truncated) && (
           <p className="mt-2 text-center font-hand text-xs text-gold/80">
             {truncated
-              ? "YouTube tak pahunch thodi der ke liye ruk gayi — baad mein dobara koshish karo."
+              ? "YouTube access paused for a moment — try again later."
               : loadMoreError}
           </p>
         )}

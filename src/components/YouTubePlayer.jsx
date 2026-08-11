@@ -74,6 +74,7 @@ export default function YouTubePlayer({
             onControllerReady?.({
               play: () => playerRef.current?.playVideo(),
               pause: () => playerRef.current?.pauseVideo(),
+              stop: () => playerRef.current?.stopVideo(),
               toggle: () => {
                 const state = playerRef.current?.getPlayerState?.();
                 if (state === YT.PlayerState.PLAYING) {

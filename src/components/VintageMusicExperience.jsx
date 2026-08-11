@@ -73,22 +73,22 @@ export default function VintageMusicExperience({
             <span className="hairline w-8 md:w-14" />
           </div>
           <p
-            className={`mt-2 text-balance font-serif2 italic text-cream/85 transition-all duration-1000 ease-cin ${
+            className={`mt-2 text-balance font-serif2 italic text-shadow-cinematic text-ivory/95 transition-all duration-1000 ease-cin ${
               isPlayer ? "text-[clamp(0.8rem,2.2vw,0.95rem)]" : "text-[clamp(0.9rem,2.6vw,1.1rem)]"
             }`}
           >
             {tagline}
           </p>
-          <p className="mt-3 flex items-center gap-1.5 font-hand text-lg text-ivory/85 md:hidden">
-            <TulipMark className="h-4 w-4 text-accent/80" />
+          <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-[#120c08]/70 px-3.5 py-1 font-dev text-sm text-gold backdrop-blur-sm md:hidden">
+            <TulipMark className="h-3.5 w-3.5 text-accent/90" />
             <span>{personal.greeting}</span>
           </p>
         </div>
       </header>
 
-      <div className="absolute right-4 top-[max(env(safe-area-inset-top),1.6rem)] z-20 hidden items-center gap-1.5 md:flex md:right-8">
-        <TulipMark className="h-4 w-4 text-accent/80" />
-        <span className="font-hand text-lg text-ivory/85 md:text-xl">For {personal.name}</span>
+      <div className="absolute right-4 top-[max(env(safe-area-inset-top),1.6rem)] z-20 hidden items-center gap-2 rounded-full border border-gold/30 bg-[#120c08]/70 px-4 py-1.5 backdrop-blur-sm md:flex md:right-8">
+        <TulipMark className="h-3.5 w-3.5 text-accent/90" />
+        <span className="font-dev text-base text-gold md:text-lg">For {personal.name}</span>
       </div>
 
       <AnimatePresence mode="wait">
@@ -177,7 +177,7 @@ export default function VintageMusicExperience({
 
       {!isPlayer && (
         <footer className="pointer-events-none absolute inset-x-0 bottom-0 z-20 pb-[max(env(safe-area-inset-bottom),1rem)] text-center">
-          <p className="font-hand text-base text-cream/35">{footer}</p>
+          <p className="font-hand text-base text-shadow-cinematic text-cream/65">{footer}</p>
         </footer>
       )}
     </main>

@@ -3,8 +3,7 @@ import TulipMark from "./TulipMark.jsx";
 import { appConfig } from "../data/config.js";
 
 export default function PlaylistInput({ isChanging, error, inputValue, onInputChange, onSubmit, onCancel }) {
-  const { openingLine, prompt, personal } = appConfig;
-  const lines = openingLine.split("\n");
+  const { prompt, personal } = appConfig;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -13,17 +12,13 @@ export default function PlaylistInput({ isChanging, error, inputValue, onInputCh
 
   return (
     <section className="absolute inset-0 flex flex-col items-center justify-center px-6">
-      <p className="max-w-xs text-balance text-center font-serif2 text-[clamp(0.9rem,3vw,1.05rem)] italic leading-relaxed text-cream/80 md:max-w-sm">
-        {lines.map((line) => (
-          <span key={line} className="block">
-            {line}
-          </span>
-        ))}
+      <p className="max-w-sm text-balance text-center font-serif2 text-shadow-cinematic text-[clamp(1.15rem,4.5vw,1.6rem)] italic leading-snug text-ivory md:max-w-md">
+        Ad-free music from your Spotify playlist.
       </p>
 
-      <div className="mt-6 flex items-center gap-2">
+      <div className="mt-5 flex items-center gap-2">
         <span className="hairline w-10" />
-        <h2 className="whitespace-nowrap font-hand text-[clamp(1.7rem,7.5vw,2.5rem)] text-ivory">{prompt}</h2>
+        <h2 className="whitespace-nowrap font-hand text-shadow-cinematic text-[clamp(1.7rem,7.5vw,2.5rem)] text-ivory">{prompt}</h2>
         <span className="hairline w-10" />
       </div>
 
@@ -31,18 +26,18 @@ export default function PlaylistInput({ isChanging, error, inputValue, onInputCh
         <label htmlFor="playlist-link" className="sr-only">
           Spotify playlist link
         </label>
-        <div className="focus-ring rounded-md border border-sand/30 bg-[#1a120c]/55 px-4 py-3">
+        <div className="focus-ring rounded-md border border-sand/40 bg-[#1a120c]/65 px-4 py-3">
           <input
             id="playlist-link"
             type="text"
             name="playlist"
             value={inputValue || ""}
             onChange={(e) => onInputChange(e.target.value)}
-            placeholder="Spotify playlist ka link"
+            placeholder="Paste your Spotify playlist link"
             autoComplete="off"
             spellCheck="false"
             enterKeyHint="go"
-            className="w-full bg-transparent font-serif2 text-sm text-ivory placeholder:text-ivory/35 focus:outline-none"
+            className="w-full bg-transparent font-serif2 text-sm text-ivory placeholder:text-ivory/55 focus:outline-none"
           />
         </div>
 
@@ -50,16 +45,16 @@ export default function PlaylistInput({ isChanging, error, inputValue, onInputCh
           type="submit"
             className="touch-target mt-5 w-full rounded-md border border-gold/40 bg-gradient-to-b from-umber/80 to-earth/90 font-serif2 text-[clamp(0.72rem,2.2vw,0.8rem)] uppercase tracking-[0.25em] text-ivory transition-all duration-200 hover:border-gold/70 hover:from-umber/90 hover:to-earth active:scale-[0.98]"
         >
-          Laayein
+          Load Playlist
         </button>
 
         {isChanging && (
           <button
             type="button"
             onClick={onCancel}
-            className="touch-target mt-3 w-full font-hand text-lg text-cream/55 underline-offset-4 transition-colors duration-200 hover:text-cream/85"
+            className="touch-target mt-3 w-full font-hand text-lg text-cream/75 underline-offset-4 transition-colors duration-200 hover:text-ivory"
           >
-            Wapas, geet chalta rahe
+            Back — keep the music playing
           </button>
         )}
       </form>
@@ -76,8 +71,8 @@ export default function PlaylistInput({ isChanging, error, inputValue, onInputCh
         </motion.p>
       )}
 
-      <p className="mt-8 flex items-center gap-1.5 text-xs text-cream/40">
-        <TulipMark className="h-3 w-3 text-accent/70" />
+      <p className="mt-8 flex items-center gap-2 font-dev text-base text-ivory md:text-lg">
+        <TulipMark className="h-4 w-4 text-accent/80" />
         <span>{personal.greeting}</span>
       </p>
     </section>

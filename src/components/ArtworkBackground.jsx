@@ -46,16 +46,26 @@ export default function ArtworkBackground({ zooming = false, trackArtwork = null
   return (
     <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
       <div ref={parallaxRef} className="parallax absolute -inset-2">
-        <img
-          src={appConfig.artworkMobile}
-          srcSet={`${appConfig.artworkMobile} 767w, ${appConfig.artworkDesktop} 1600w`}
-          sizes="100vw"
-          alt=""
-          fetchPriority="high"
-          className={`absolute inset-0 h-full w-full object-cover object-bottom ${
-            zooming ? "kenburns-zoom" : "kenburns"
-          }`}
-        />
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcSet={`${appConfig.artworkMobile} 900w, ${appConfig.artworkMobile2x} 1800w`}
+            sizes="100vw"
+          />
+          <source
+            media="(min-width: 768px)"
+            srcSet={`${appConfig.artworkDesktop} 1600w`}
+            sizes="100vw"
+          />
+          <img
+            src={appConfig.artworkMobile}
+            alt=""
+            fetchPriority="high"
+            className={`absolute inset-0 h-full w-full object-cover object-bottom ${
+              zooming ? "kenburns-zoom" : "kenburns"
+            }`}
+          />
+        </picture>
       </div>
 
       <div

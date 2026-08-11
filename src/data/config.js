@@ -1,14 +1,14 @@
 export const appConfig = {
-  title: "पुराने गीत",
-  tagline: "कुछ गीत पुराने नहीं होते…",
-  openingLine: "Some songs don't play.\nThey bring memories back.",
-  prompt: "Apni playlist laayein",
-  playlistLabel: "Aapki yaadein",
-  loadingText: "Yaadein jama ki ja rahi hain…",
-  previewNotice: "पूरे गाने सुनने के लिए ब्राउज़र में Spotify लॉग-इन करें या 'Open in Spotify' दबाएं।",
+  title: "Old Songs",
+  tagline: "Some songs never get old…",
+  prompt: "Bring your playlist",
+  playlistLabel: "Your memories",
+  loadingText: "Gathering your memories…",
+  previewNotice: "To hear full songs, log in to Spotify in your browser or press 'Open in Spotify'.",
   footer: "made with memories",
   artworkDesktop: "/assets/baground.webp",
-  artworkMobile: "/assets/baground.webp",
+  artworkMobile: "/assets/phone-bg.webp",
+  artworkMobile2x: "/assets/phone-bg@2x.webp",
   theme: {
     ink: "#2A1D16",
     earth: "#463226",
@@ -28,7 +28,7 @@ export const appConfig = {
     flower: "tulip"
   },
   meta: {
-    title: "पुराने गीत — A Little Memory",
+    title: "Old Songs — A Little Memory",
     description: "Some songs don't play. They bring memories back."
   }
 };

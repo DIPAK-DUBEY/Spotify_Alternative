@@ -98,6 +98,7 @@ export function useYouTubePlaylist() {
     setTracks([]);
     setPlaylist(null);
     setIsPlaying(false);
+    setProgress({ current: 0, duration: 0 });
     setTotalCount(null);
     setDone(true);
     setTruncated(false);
@@ -105,6 +106,8 @@ export function useYouTubePlaylist() {
     setInitialLoaded(false);
     nextStartRef.current = 0;
     pendingPlayRef.current = false;
+    pendingLoadRef.current = null;
+    controllerRef.current?.stop?.();
     const started = Date.now();
 
     const metaPromise = fetchChunk(id, 0, 0);
@@ -139,19 +142,24 @@ export function useYouTubePlaylist() {
     setDone(false);
     nextStartRef.current = meta.nextStart ?? 0;
 
+    setIsLoadingMore(true);
     applyChunk(id, chunkPromise);
 
     return { ok: true };
   }
 
   async function applyChunk(id, promise) {
-    const result = await Promise.race([promise, sleep(60000)]);
+    const result = await promise;
 
-    if (playlistIdRef.current !== id) return;
+    if (playlistIdRef.current !== id) {
+      setIsLoadingMore(false);
+      return;
+    }
 
     if (!result || !result.ok) {
-      setLoadMoreError("Pehle geet laana abhi mumkin nahi hua — thodi der baad 'Aur geet laao' dabao.");
+      setLoadMoreError("Couldn't load the first songs yet — press 'Load more songs' in a moment.");
       setInitialLoaded(true);
+      setIsLoadingMore(false);
       return;
     }
 
@@ -168,6 +176,7 @@ export function useYouTubePlaylist() {
     setTruncated(!!result.truncated);
     nextStartRef.current = result.nextStart ?? nextTracks.length;
     setInitialLoaded(true);
+    setIsLoadingMore(false);
 
     if (nextDone && !result.truncated && nextTracks.length) {
       cachePlaylist(id, {
@@ -193,17 +202,22 @@ export function useYouTubePlaylist() {
       return { ok: false, stopped: true };
     }
     loadingMoreRef.current = true;
+    const id = playlist.id;
     const start = nextStartRef.current;
     setIsLoadingMore(true);
     setLoadMoreError(null);
 
-    const result = await Promise.race([fetchChunk(playlist.id, start), sleep(60000)]);
+    const result = await fetchChunk(id, start);
 
     setIsLoadingMore(false);
     loadingMoreRef.current = false;
 
+    if (playlistIdRef.current !== id) {
+      return { ok: false, stopped: true };
+    }
+
     if (!result || !result.ok) {
-      setLoadMoreError("Aur geet laana abhi mumkin nahi hua.");
+      setLoadMoreError("Couldn't load more songs right now.");
       return { ok: false, stopped: true };
     }
 
