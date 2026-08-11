@@ -45,7 +45,7 @@ export default function VintageMusicExperience({
   onPlayTrack,
   playerProps
 }) {
-  const { title, tagline, footer, personal } = appConfig;
+  const { tagline, footer, personal } = appConfig;
   const isPlayer = phase === "player";
 
   return (
@@ -61,19 +61,8 @@ export default function VintageMusicExperience({
 
       <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center px-5 pt-[max(env(safe-area-inset-top),1.5rem)] text-center md:items-start md:px-12 md:text-left">
         <div className="flex w-full flex-col items-center md:items-start">
-          <div className="flex w-full items-center justify-center gap-3 md:justify-start">
-            <span className="hairline w-8 md:w-14" />
-            <h1
-              className={`whitespace-nowrap font-dev font-semibold leading-tight text-ivory text-shadow-cinematic transition-all duration-1000 ease-cin ${
-                isPlayer ? "text-[clamp(1.2rem,4.2vw,2rem)]" : "text-[clamp(2.1rem,9vw,4.5rem)]"
-              }`}
-            >
-              {title}
-            </h1>
-            <span className="hairline w-8 md:w-14" />
-          </div>
           <p
-            className={`mt-2 text-balance font-serif2 italic text-shadow-cinematic text-ivory/95 transition-all duration-1000 ease-cin ${
+            className={`text-balance font-serif2 italic text-shadow-cinematic text-ivory/95 transition-all duration-1000 ease-cin ${
               isPlayer ? "text-[clamp(0.8rem,2.2vw,0.95rem)]" : "text-[clamp(0.9rem,2.6vw,1.1rem)]"
             }`}
           >
