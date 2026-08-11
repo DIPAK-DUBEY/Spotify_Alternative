@@ -47,7 +47,21 @@ function Thumb({ track, isCurrent }) {
   );
 }
 
-export default function PlaylistPanel({ open, onClose, playlist, tracks, currentIndex, isPlaying, onPlayTrack }) {
+export default function PlaylistPanel({
+  open,
+  onClose,
+  playlist,
+  tracks,
+  currentIndex,
+  isPlaying,
+  totalCount,
+  canLoadMore,
+  truncated,
+  isLoadingMore,
+  loadMoreError,
+  onLoadMore,
+  onPlayTrack
+}) {
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -112,7 +126,9 @@ export default function PlaylistPanel({ open, onClose, playlist, tracks, current
                   {playlist?.name || "Purane Geet"}
                 </p>
                 <p className="mt-0.5 truncate font-serif2 text-sm text-ivory md:text-base">
-                  {tracks.length} geet {currentIndex >= 0 && "· ab baj raha hai"}
+                  {tracks.length} geet
+                  {canLoadMore && totalCount > tracks.length ? ` · ${totalCount} kul` : ""}
+                  {currentIndex >= 0 && " · ab baj raha hai"}
                 </p>
               </div>
               <button
@@ -185,6 +201,28 @@ export default function PlaylistPanel({ open, onClose, playlist, tracks, current
                 })
               )}
             </div>
+
+            {canLoadMore && (
+              <div className="shrink-0 border-t border-sand/15 px-4 py-3 md:px-6">
+                <button
+                  type="button"
+                  onClick={onLoadMore}
+                  disabled={isLoadingMore}
+                  className="touch-target w-full rounded-md border border-gold/40 bg-gradient-to-b from-umber/80 to-earth/90 font-serif2 text-[0.72rem] uppercase tracking-[0.25em] text-ivory transition-all duration-200 hover:border-gold/70 hover:from-umber/90 hover:to-earth active:scale-[0.98] disabled:cursor-wait disabled:opacity-60 md:text-[0.75rem]"
+                >
+                  {isLoadingMore
+                    ? "Aur geet laa rahe hain…"
+                    : `Aur geet laao (${Math.max(0, totalCount - tracks.length)})`}
+                </button>
+                {(loadMoreError || truncated) && (
+                  <p className="mt-2 text-center font-hand text-xs text-gold/80">
+                    {truncated
+                      ? "YouTube tak pahunch thodi der ke liye ruk gayi — baad mein dobara koshish karo."
+                      : loadMoreError}
+                  </p>
+                )}
+              </div>
+            )}
           </motion.div>
         </div>
       )}

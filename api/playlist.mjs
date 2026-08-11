@@ -6,8 +6,13 @@ const SPOTIFY_UA =
 const YT_KEY = "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8";
 const YT_CLIENT_VERSION = "2.20250101.00.00";
 
-const MAX_TRACKS = 50;
-const CONCURRENCY = 5;
+const MAX_TRACKS = 1000;
+const CHUNK_MAX = 100;
+const CONCURRENCY = 8;
+const RESOLVE_BUDGET_MS = 45000;
+
+const PF_URL = "https://api-partner.spotify.com/pathfinder/v1/query";
+const PF_QUERY_ID = "e4b2953f160e58e38ac025d79b5a9b3aceee5c4c716598e9830bfceb69faff5f";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -18,17 +23,20 @@ export default async function handler(req, res) {
     return json(res, 400, { ok: false, reason: "invalid" });
   }
 
+  const start = clampInt(req.query.start, 0, 0, MAX_TRACKS - 1);
+  const count = clampInt(req.query.count, CHUNK_MAX, 0, CHUNK_MAX);
+
   try {
-    const playlist = await resolvePlaylist(id);
-    if (!playlist.ok) {
-      return json(res, 200, playlist);
+    const meta = await resolvePlaylist(id);
+    if (!meta.ok) {
+      return json(res, 200, { ok: false, reason: meta.reason });
     }
 
-    const tracks = await resolveTracks(playlist.tracks);
+    const range = meta.tracks.slice(start, start + count);
+    const resolved = await resolveTracks(range);
 
-    if (!tracks.length) {
-      return json(res, 200, { ok: false, reason: "empty" });
-    }
+    const done = start + resolved.tracks.length >= meta.totalCount;
+    const empty = start >= meta.tracks.length;
 
     return json(
       res,
@@ -36,11 +44,16 @@ export default async function handler(req, res) {
       {
         ok: true,
         id,
-        name: playlist.name,
-        artwork: playlist.artwork,
-        tracks
+        name: meta.name,
+        artwork: meta.artwork,
+        totalCount: meta.totalCount,
+        start,
+        nextStart: resolved.truncated ? start : start + count,
+        done,
+        truncated: resolved.truncated,
+        tracks: empty ? [] : resolved.tracks
       },
-      true
+      done && !resolved.truncated
     );
   } catch {
     return json(res, 200, { ok: false, reason: "network" });
@@ -57,6 +70,12 @@ function json(res, status, payload, cacheable) {
   res.end(JSON.stringify(payload));
 }
 
+function clampInt(value, fallback, min, max) {
+  const n = Number.parseInt(String(value), 10);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
+}
+
 async function resolvePlaylist(id) {
   const [embedResult, oembedResult] = await Promise.allSettled([
     fetchSpotifyEmbed(id),
@@ -66,19 +85,36 @@ async function resolvePlaylist(id) {
   const embed = embedResult.status === "fulfilled" ? embedResult.value : null;
   const oembed = oembedResult.status === "fulfilled" ? oembedResult.value : null;
 
-  if (!embed && !oembed) {
-    return { ok: false, reason: "network" };
-  }
   if (!embed || !embed.tracks.length) {
-    if (!oembed) return { ok: false, reason: "notfound" };
-    return { ok: false, reason: "notfound" };
+    return { ok: false, reason: !embed ? (oembed ? "notfound" : "network") : "notfound" };
+  }
+
+  let tracks = embed.tracks.slice(0, MAX_TRACKS);
+  let totalCount = embed.tracks.length;
+
+  if (embed.tracks.length >= 50 && embed.token) {
+    try {
+      const first = await fetchPlaylistContents(id, embed.token, 0, 100);
+      if (first && first.totalCount > 0) {
+        totalCount = Math.min(first.totalCount, MAX_TRACKS);
+        tracks = first.items.slice(0, MAX_TRACKS);
+        while (tracks.length < totalCount) {
+          const page = await fetchPlaylistContents(id, embed.token, tracks.length, 100);
+          if (!page || !page.items.length) break;
+          tracks = tracks.concat(page.items.slice(0, Math.max(0, MAX_TRACKS - tracks.length)));
+        }
+      }
+    } catch {
+      /* paging unavailable — fall back to the embed's track list */
+    }
   }
 
   return {
     ok: true,
-    name: embed.name || oembed.name,
-    artwork: embed.artwork || oembed.artwork,
-    tracks: embed.tracks
+    name: embed.name || oembed?.name,
+    artwork: embed.artwork || oembed?.artwork,
+    totalCount: Math.max(totalCount, tracks.length),
+    tracks
   };
 }
 
@@ -95,6 +131,7 @@ async function fetchSpotifyEmbed(id) {
   if (!res.ok) return null;
 
   const html = await res.text();
+  const token = (html.match(/"accessToken":"([^"]+)"/) || [])[1] || null;
   const match = html.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/);
   if (!match) return null;
 
@@ -115,7 +152,63 @@ async function fetchSpotifyEmbed(id) {
       durationMs: Number(t.duration) || 0
     }));
 
-  return { name, artwork, tracks };
+  return { name, artwork, tracks, token };
+}
+
+async function fetchPlaylistContents(id, token, offset, limit) {
+  const variables = {
+    uri: `spotify:playlist:${id}`,
+    offset,
+    limit,
+    order: "default"
+  };
+  const extensions = { persistedQuery: { version: 1, sha256Hash: PF_QUERY_ID } };
+
+  const res = await fetch(
+    `${PF_URL}?operationName=fetchPlaylistContents&variables=${encodeURIComponent(
+      JSON.stringify(variables)
+    )}&extensions=${encodeURIComponent(JSON.stringify(extensions))}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "User-Agent": SPOTIFY_UA
+      },
+      signal: AbortSignal.timeout(8000)
+    }
+  );
+
+  if (!res.ok) return null;
+
+  const data = await res.json();
+  const content = data?.data?.playlistV2?.content;
+  if (!content) return null;
+
+  return {
+    totalCount: Number(content.totalCount) || 0,
+    items: mapPfItems(content.items)
+  };
+}
+
+function mapPfItems(items) {
+  const out = [];
+  if (!Array.isArray(items)) return out;
+
+  for (const item of items) {
+    const d = item?.itemV2?.data;
+    if (!d || d.__typename !== "Track") continue;
+    if (typeof d.name !== "string" || !d.name.trim()) continue;
+
+    out.push({
+      title: d.name,
+      artist: (d.artists?.items || [])
+        .map((a) => a?.profile?.name)
+        .filter(Boolean)
+        .join(", "),
+      durationMs: Number(d.trackDuration?.totalMilliseconds) || 0
+    });
+  }
+  return out;
 }
 
 function extractVisualIdentity(visualIdentity) {
@@ -144,8 +237,15 @@ async function fetchOembed(id) {
 }
 
 async function resolveTracks(tracks) {
+  const deadline = Date.now() + RESOLVE_BUDGET_MS;
   const results = [];
+  let truncated = false;
+
   for (let i = 0; i < tracks.length; i += CONCURRENCY) {
+    if (Date.now() > deadline) {
+      truncated = true;
+      break;
+    }
     const chunk = tracks.slice(i, i + CONCURRENCY);
     const settled = await Promise.allSettled(chunk.map((t) => searchYouTube(t)));
     for (const s of settled) {
@@ -154,7 +254,8 @@ async function resolveTracks(tracks) {
       }
     }
   }
-  return results;
+
+  return { tracks: results, truncated };
 }
 
 async function searchYouTube(track) {

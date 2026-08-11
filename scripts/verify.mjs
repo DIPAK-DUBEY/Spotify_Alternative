@@ -120,6 +120,13 @@ console.log("  [flow] player shows playlist name:", playerText.includes("Men in 
 await p2.getByRole("button", { name: "Show playlist" }).click();
 await p2.waitForTimeout(700);
 const panelVisible = await p2.locator('[role="dialog"]').isVisible();
+if (panelVisible) {
+  try {
+    await p2.locator(".song-row").first().waitFor({ state: "visible", timeout: 90000 });
+  } catch {
+    /* rows may still be loading */
+  }
+}
 const rowCount = await p2.locator(".song-row").count();
 console.log(`  [flow] show-playlist panel: ${panelVisible && rowCount > 0 ? "PASS" : "FAIL"} (${rowCount} rows)`);
 if (!panelVisible || rowCount === 0) failures.push("show playlist: panel or rows missing");

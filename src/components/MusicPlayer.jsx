@@ -66,6 +66,12 @@ export default function MusicPlayer({
   isPlaying,
   progress,
   trackCount,
+  totalCount,
+  canLoadMore,
+  truncated,
+  isLoadingMore,
+  loadMoreError,
+  onLoadMore,
   onToggle,
   onNext,
   onPrev,
@@ -96,7 +102,9 @@ export default function MusicPlayer({
             <p className="truncate font-hand text-[10px] leading-none text-cream/50 md:text-xs">
               {playlistLabel}: {playlist?.name || "Purane Geet"}
               {trackCount > 0 && (
-                <span className="ml-1.5 text-[10px] text-cream/40">· {trackCount} geet</span>
+                <span className="ml-1.5 text-[10px] text-cream/40">
+                  · {trackCount}{canLoadMore && totalCount > trackCount ? ` / ${totalCount}` : ""} geet
+                </span>
               )}
             </p>
             {currentTrack ? (
@@ -111,10 +119,12 @@ export default function MusicPlayer({
             ) : (
               <div className="mt-1 min-w-0">
                 <p className="truncate font-serif2 text-[clamp(0.9rem,3.2vw,1.25rem)] leading-tight text-ivory/90">
-                  Pehla geet sunne ko tayyar
+                  {canLoadMore && trackCount === 0 ? "Geet aa rahe hain…" : "Pehla geet sunne ko tayyar"}
                 </p>
                 <p className="mt-0.5 text-[clamp(0.68rem,2vw,0.85rem)] text-cream/60">
-                  Play dabao — yaadein shuru ho jayengi
+                  {canLoadMore && trackCount === 0
+                    ? "Play dabao — pehla geet khud baj jayega"
+                    : "Play dabao — yaadein shuru ho jayengi"}
                 </p>
               </div>
             )}
@@ -191,7 +201,21 @@ export default function MusicPlayer({
             </svg>
             Show playlist
           </button>
-          <span className="hairline hidden w-16 md:inline-block" />
+
+          {canLoadMore && (
+            <button
+              type="button"
+              onClick={onLoadMore}
+              disabled={isLoadingMore}
+              className="touch-target font-hand text-xs text-gold/90 underline-offset-4 transition-colors duration-200 hover:text-gold disabled:cursor-wait disabled:text-gold/50 md:text-sm"
+            >
+              {isLoadingMore
+                ? "Aur geet laa rahe hain…"
+                : `Aur geet laao (${totalCount - trackCount})`}
+            </button>
+          )}
+
+          <span className="hairline hidden w-10 md:inline-block" />
           <button
             type="button"
             onClick={onChangePlaylist}
@@ -200,6 +224,14 @@ export default function MusicPlayer({
             Change playlist
           </button>
         </div>
+
+        {(loadMoreError || truncated) && (
+          <p className="mt-2 text-center font-hand text-xs text-gold/80">
+            {truncated
+              ? "YouTube tak pahunch thodi der ke liye ruk gayi — baad mein dobara koshish karo."
+              : loadMoreError}
+          </p>
+        )}
       </div>
     </section>
   );

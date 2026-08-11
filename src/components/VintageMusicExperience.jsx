@@ -36,6 +36,12 @@ export default function VintageMusicExperience({
   showPlaylist,
   tracks,
   currentIndex,
+  totalCount,
+  canLoadMore,
+  truncated,
+  isLoadingMore,
+  loadMoreError,
+  onLoadMore,
   onPlayTrack,
   playerProps
 }) {
@@ -134,6 +140,12 @@ export default function VintageMusicExperience({
               isPlaying={isPlaying}
               progress={progress}
               trackCount={trackCount}
+              totalCount={totalCount}
+              canLoadMore={canLoadMore}
+              truncated={truncated}
+              isLoadingMore={isLoadingMore}
+              loadMoreError={loadMoreError}
+              onLoadMore={onLoadMore}
               onToggle={onToggle}
               onNext={onNext}
               onPrev={onPrev}
@@ -153,6 +165,12 @@ export default function VintageMusicExperience({
           tracks={tracks}
           currentIndex={currentIndex}
           isPlaying={isPlaying}
+          totalCount={totalCount}
+          canLoadMore={canLoadMore}
+          truncated={truncated}
+          isLoadingMore={isLoadingMore}
+          loadMoreError={loadMoreError}
+          onLoadMore={onLoadMore}
           onPlayTrack={onPlayTrack}
         />
       )}

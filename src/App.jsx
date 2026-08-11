@@ -26,11 +26,18 @@ export default function App() {
     isLoading,
     progress,
     loadPlaylist,
+    loadMore,
     playTrack,
     toggle,
     next,
     prev,
     seekToFraction,
+    totalCount,
+    done,
+    canLoadMore,
+    truncated,
+    isLoadingMore,
+    loadMoreError,
     playerProps
   } = useYouTubePlaylist();
 
@@ -86,9 +93,15 @@ export default function App() {
       onShowPlaylist={() => setShowPlaylist(true)}
       onClosePlaylist={() => setShowPlaylist(false)}
       showPlaylist={showPlaylist}
-      onPlayTrack={playTrack}
       tracks={tracks}
       currentIndex={currentIndex}
+      totalCount={totalCount}
+      canLoadMore={canLoadMore}
+      truncated={truncated}
+      isLoadingMore={isLoadingMore}
+      loadMoreError={loadMoreError}
+      onLoadMore={loadMore}
+      onPlayTrack={playTrack}
       playerProps={playerProps}
     />
   );
