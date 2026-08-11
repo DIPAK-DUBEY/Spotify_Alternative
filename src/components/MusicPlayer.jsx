@@ -1,5 +1,4 @@
 import { appConfig } from "../data/config.js";
-import { shareUrl } from "../utils/spotify.js";
 
 function Vinyl({ artwork, isPlaying }) {
   return (
@@ -71,7 +70,8 @@ export default function MusicPlayer({
   onNext,
   onPrev,
   onSeekFraction,
-  onChangePlaylist
+  onChangePlaylist,
+  onShowPlaylist
 }) {
   const { playlistLabel } = appConfig;
   const artwork = currentTrack?.artwork || playlist?.artwork || null;
@@ -178,15 +178,19 @@ export default function MusicPlayer({
         </div>
 
         <div className="mt-2 flex items-center justify-between gap-3 md:mt-3">
-          <a
-            href={shareUrl(playlist.id)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="touch-target inline-flex items-center gap-1 font-hand text-xs text-gold/90 transition-colors duration-200 hover:text-gold md:text-sm"
+          <button
+            type="button"
+            onClick={onShowPlaylist}
+            className="touch-target inline-flex items-center gap-1.5 font-hand text-xs text-gold/90 underline-offset-4 transition-colors duration-200 hover:text-gold md:text-sm"
           >
-            Open in Spotify
-            <span aria-hidden="true">↗</span>
-          </a>
+            <svg viewBox="0 0 12 12" className="h-3 w-3 md:h-3.5 md:w-3.5" aria-hidden="true">
+              <path
+                d="M2 2h8v2H2zm0 3h8v2H2zm0 3h5v2H2z"
+                fill="currentColor"
+              />
+            </svg>
+            Show playlist
+          </button>
           <span className="hairline hidden w-16 md:inline-block" />
           <button
             type="button"

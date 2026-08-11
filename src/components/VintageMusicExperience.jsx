@@ -4,6 +4,7 @@ import CinematicOverlay from "./CinematicOverlay.jsx";
 import GrainOverlay from "./GrainOverlay.jsx";
 import Vignette from "./Vignette.jsx";
 import PlaylistInput from "./PlaylistInput.jsx";
+import PlaylistPanel from "./PlaylistPanel.jsx";
 import LoadingMemory from "./LoadingMemory.jsx";
 import MusicPlayer from "./MusicPlayer.jsx";
 import TulipMark from "./TulipMark.jsx";
@@ -30,6 +31,12 @@ export default function VintageMusicExperience({
   onNext,
   onPrev,
   onSeekFraction,
+  onShowPlaylist,
+  onClosePlaylist,
+  showPlaylist,
+  tracks,
+  currentIndex,
+  onPlayTrack,
   playerProps
 }) {
   const { title, tagline, footer, personal } = appConfig;
@@ -132,10 +139,23 @@ export default function VintageMusicExperience({
               onPrev={onPrev}
               onSeekFraction={onSeekFraction}
               onChangePlaylist={onChangePlaylist}
+              onShowPlaylist={onShowPlaylist}
             />
           </motion.div>
         )}
       </AnimatePresence>
+
+      {isPlayer && (
+        <PlaylistPanel
+          open={showPlaylist}
+          onClose={onClosePlaylist}
+          playlist={playlist}
+          tracks={tracks}
+          currentIndex={currentIndex}
+          isPlaying={isPlaying}
+          onPlayTrack={onPlayTrack}
+        />
+      )}
 
       {!isPlayer && (
         <footer className="pointer-events-none absolute inset-x-0 bottom-0 z-20 pb-[max(env(safe-area-inset-bottom),1rem)] text-center">

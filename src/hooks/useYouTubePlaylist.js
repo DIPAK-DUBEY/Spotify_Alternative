@@ -161,6 +161,7 @@ export function useYouTubePlaylist() {
     error,
     progress,
     loadPlaylist,
+    playTrack,
     toggle,
     next,
     prev,

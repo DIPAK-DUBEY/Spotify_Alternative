@@ -117,6 +117,26 @@ await checkNoScroll(p2, "flow-player");
 const playerText = await p2.locator("body").innerText();
 console.log("  [flow] player shows playlist name:", playerText.includes("Men in love") || playerText.includes("Purane Geet") ? "PASS" : "FAIL?");
 
+await p2.getByRole("button", { name: "Show playlist" }).click();
+await p2.waitForTimeout(700);
+const panelVisible = await p2.locator('[role="dialog"]').isVisible();
+const rowCount = await p2.locator(".song-row").count();
+console.log(`  [flow] show-playlist panel: ${panelVisible && rowCount > 0 ? "PASS" : "FAIL"} (${rowCount} rows)`);
+if (!panelVisible || rowCount === 0) failures.push("show playlist: panel or rows missing");
+await p2.screenshot({ path: `${OUT}flow-playlist.png` });
+
+const firstTitle = await p2.locator('[aria-label="Music player"] .font-serif2').first().innerText();
+const thirdRowTitle = await p2.locator(".song-row").nth(2).locator("p").first().innerText();
+await p2.locator(".song-row").nth(2).click();
+await p2.waitForTimeout(1200);
+const panelClosed = !(await p2.locator('[role="dialog"]').isVisible());
+const nowTitle = await p2.locator('[aria-label="Music player"] .font-serif2').first().innerText();
+console.log(
+  `  [flow] row-click plays song: ${panelClosed && nowTitle === thirdRowTitle ? "PASS" : "FAIL"} (${nowTitle === thirdRowTitle ? "" : "title mismatch, "}panel ${panelClosed ? "closed" : "open"})`
+);
+if (!panelClosed || nowTitle !== thirdRowTitle) failures.push("row click: song not switched/panel not closed");
+console.log("  [flow] first song was:", firstTitle);
+
 await p2.getByRole("button", { name: "Change playlist" }).click();
 await p2.waitForTimeout(1400);
 await p2.screenshot({ path: `${OUT}flow-change-playlist.png` });

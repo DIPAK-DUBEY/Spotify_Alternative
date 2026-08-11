@@ -16,14 +16,17 @@ export default function App() {
   const [isChanging, setIsChanging] = useState(false);
   const [error, setError] = useState(null);
   const [inputValue, setInputValue] = useState("");
+  const [showPlaylist, setShowPlaylist] = useState(false);
   const {
     playlist,
     tracks,
     currentTrack,
+    currentIndex,
     isPlaying,
     isLoading,
     progress,
     loadPlaylist,
+    playTrack,
     toggle,
     next,
     prev,
@@ -40,6 +43,7 @@ export default function App() {
       return;
     }
     setPhase("loading");
+    setShowPlaylist(false);
     const result = await loadPlaylist(parsed.id);
     if (result.ok) {
       setIsChanging(false);
@@ -79,6 +83,12 @@ export default function App() {
       onNext={next}
       onPrev={prev}
       onSeekFraction={seekToFraction}
+      onShowPlaylist={() => setShowPlaylist(true)}
+      onClosePlaylist={() => setShowPlaylist(false)}
+      showPlaylist={showPlaylist}
+      onPlayTrack={playTrack}
+      tracks={tracks}
+      currentIndex={currentIndex}
       playerProps={playerProps}
     />
   );

@@ -1,16 +1,14 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import TulipMark from "./TulipMark.jsx";
 import { appConfig } from "../data/config.js";
 
-export default function PlaylistInput({ isChanging, error, onSubmit, onCancel }) {
-  const [value, setValue] = useState("");
+export default function PlaylistInput({ isChanging, error, inputValue, onInputChange, onSubmit, onCancel }) {
   const { openingLine, prompt, personal } = appConfig;
   const lines = openingLine.split("\n");
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit(value);
+    onSubmit(inputValue || "");
   }
 
   return (
@@ -38,8 +36,8 @@ export default function PlaylistInput({ isChanging, error, onSubmit, onCancel })
             id="playlist-link"
             type="text"
             name="playlist"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            value={inputValue || ""}
+            onChange={(e) => onInputChange(e.target.value)}
             placeholder="Spotify playlist ka link"
             autoComplete="off"
             spellCheck="false"

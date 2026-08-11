@@ -59,7 +59,35 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 
-  .vintage-frame {
+  @keyframes eq-bounce {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.song-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 166, 107, 0.35) transparent;
+}
+
+.song-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.song-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.song-scroll::-webkit-scrollbar-thumb {
+  background: rgba(201, 166, 107, 0.35);
+  border-radius: 999px;
+}
+
+.vintage-frame {
     background: linear-gradient(160deg, rgba(42, 29, 22, 0.86), rgba(26, 18, 12, 0.92));
     border: 1px solid rgba(212, 178, 122, 0.28);
     box-shadow:
