@@ -168,7 +168,7 @@ export function useYouTubePlaylist() {
     clearError,
     playerProps: {
       videoId: currentTrack?.videoId || null,
-      startSeconds: 5,
+      startSeconds: 0,
       onControllerReady,
       onPlayerState,
       onPlayerEnded,
