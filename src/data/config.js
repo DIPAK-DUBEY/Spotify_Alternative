@@ -7,8 +7,8 @@ export const appConfig = {
   loadingText: "Yaadein jama ki ja rahi hain…",
   previewNotice: "पूरे गाने सुनने के लिए ब्राउज़र में Spotify लॉग-इन करें या 'Open in Spotify' दबाएं।",
   footer: "made with memories",
-  artworkDesktop: "/assets/village-desktop.webp",
-  artworkMobile: "/assets/phone-bg.webp",
+  artworkDesktop: "/assets/baground.webp",
+  artworkMobile: "/assets/baground.webp",
   theme: {
     ink: "#2A1D16",
     earth: "#463226",
