@@ -88,7 +88,7 @@ export function useYouTubePlaylist() {
     }
   }
 
-  async function loadPlaylist(id) {
+  async function loadPlaylist(id, { minLoading = true } = {}) {
     setCurrentIndex(-1);
     setTracks([]);
     setPlaylist(null);
@@ -110,7 +110,7 @@ export function useYouTubePlaylist() {
     const meta = await Promise.race([metaPromise, sleep(60000)]);
 
     const elapsed = Date.now() - started;
-    if (elapsed < MIN_LOADING_MS) {
+    if (minLoading && elapsed < MIN_LOADING_MS) {
       await sleep(MIN_LOADING_MS - elapsed);
     }
 

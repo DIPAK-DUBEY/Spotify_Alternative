@@ -8,6 +8,8 @@ export const appConfig = {
   artworkDesktop: "/assets/baground.webp",
   artworkMobile: "/assets/phone-bg.webp",
   artworkMobile2x: "/assets/phone-bg@2x.webp",
+  defaultPlaylistUrl: "https://open.spotify.com/playlist/1fYx6s4pBo4g04mRLPV8gu?si=Hb5RudDRTZixUq39yLiXRQ",
+  defaultPlaylistName: "Kishore Kumar Top 50 Song",
   personal: {
     name: "Prachi",
     greeting: "For Prachi"

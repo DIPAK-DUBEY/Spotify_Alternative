@@ -175,6 +175,10 @@ export default function VintageMusicExperience({
           <p className="font-hand text-base text-shadow-cinematic text-cream/65">{footer}</p>
         </footer>
       )}
+
+      <p className="pointer-events-none absolute bottom-2 right-3 z-20 font-hand text-sm text-shadow-cinematic text-cream/70 md:bottom-4 md:right-8 md:text-base">
+        by Shlokh
+      </p>
     </main>
   );
 }

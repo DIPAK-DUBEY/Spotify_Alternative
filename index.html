@@ -3,14 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Old Songs — A Little Memory</title>
-    <meta name="description" content="Some songs don't play. They bring memories back." />
+    <title>Old Songs — Kishore Kumar Top 50 Playlist | A Little Memory</title>
+    <meta
+      name="description"
+      content="Old Songs — a vintage memory player for Kishore Kumar Top 50 songs and other old Hindi playlists. Ad-free music, no login, no Spotify Premium. Paste any Spotify playlist link and relive the memories."
+    />
+    <meta
+      name="keywords"
+      content="old songs, kishore kumar, purane gaane, hindi playlist, vintage music player, spotify playlist player, old hindi songs"
+    />
+    <meta name="author" content="Shlokh" />
     <meta name="theme-color" content="#2A1D16" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Old Songs — A Little Memory" />
-    <meta property="og:description" content="Some songs don't play. They bring memories back. Bring your playlist." />
+    <meta property="og:site_name" content="Old Songs" />
+    <meta property="og:title" content="Old Songs — Kishore Kumar Top 50 Playlist | A Little Memory" />
+    <meta
+      property="og:description"
+      content="Some songs never get old. Listen to the Kishore Kumar Top 50 playlist on a vintage ad-free player — or bring your own Spotify playlist."
+    />
     <meta property="og:image" content="/assets/village-og.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Old Songs — A Little Memory" />
+    <meta
+      name="twitter:description"
+      content="Some songs never get old. Vintage ad-free player for Kishore Kumar Top 50 and your own Spotify playlists."
+    />
     <link rel="icon" type="image/svg+xml" href="/assets/mark.svg" />
     <link rel="preload" as="image" href="/assets/baground.webp" fetchpriority="high" media="(min-width: 768px)" />
     <link rel="preload" as="image" href="/assets/phone-bg.webp" fetchpriority="high" media="(max-width: 767px)" />
@@ -20,9 +37,54 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600;700&family=Instrument+Serif:ital@0;1&family=Caveat:wght@500;600&family=Kalam:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MusicPlaylist",
+        "name": "Old Songs — Kishore Kumar Top 50 Playlist",
+        "description": "Some songs never get old. A vintage ad-free player streaming the Kishore Kumar Top 50 playlist — or paste any Spotify playlist link.",
+        "url": "https://open.spotify.com/playlist/1fYx6s4pBo4g04mRLPV8gu",
+        "genre": ["Bollywood", "Old Hindi Songs", "Kishore Kumar"],
+        "numTracks": 50,
+        "audioFeature": {
+          "@type": "MusicPlaylist",
+          "name": "Vintage ad-free music player, no login, no Spotify Premium required"
+        }
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main class="screen">
+        <div class="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center px-5 pt-[max(env(safe-area-inset-top),1.5rem)] text-center md:items-start md:px-12 md:text-left">
+          <p class="text-balance font-serif2 italic text-ivory/95" style="text-shadow: 0 1px 3px rgba(15,8,3,.75), 0 4px 16px rgba(10,5,2,.7), 0 12px 44px rgba(10,5,2,.6)">
+            Some songs never get old…
+          </p>
+        </div>
+        <section class="absolute inset-0 flex flex-col items-center justify-center px-6">
+          <p class="max-w-sm text-balance text-center font-serif2 text-ivory md:max-w-md" style="text-shadow: 0 1px 3px rgba(15,8,3,.75), 0 4px 16px rgba(10,5,2,.7), 0 12px 44px rgba(10,5,2,.6)">
+            Ad-free music from your Spotify playlist.
+          </p>
+          <h2 class="whitespace-nowrap font-hand text-ivory" style="text-shadow: 0 1px 3px rgba(15,8,3,.75), 0 4px 16px rgba(10,5,2,.7), 0 12px 44px rgba(10,5,2,.6)">
+            Bring your playlist
+          </h2>
+          <p class="max-w-sm text-center font-serif2 text-sm text-ivory/85">
+            Default playlist: Kishore Kumar Top 50 Song. Paste any Spotify playlist link to play your own.
+          </p>
+        </section>
+        <footer class="pointer-events-none absolute inset-x-0 bottom-0 z-20 pb-[max(env(safe-area-inset-bottom),1rem)] text-center">
+          <p class="font-hand text-base text-cream/65" style="text-shadow: 0 1px 3px rgba(15,8,3,.75), 0 4px 16px rgba(10,5,2,.7), 0 12px 44px rgba(10,5,2,.6)">
+            made with memories
+          </p>
+        </footer>
+      </main>
+    </div>
+    <noscript>
+      <p style="color: #f4e8d0; background: #1a120c; padding: 1rem; text-align: center; font-family: sans-serif">
+        Old Songs — a vintage ad-free music player. Default playlist: Kishore Kumar Top 50 Song.
+        JavaScript enable karein to player aur playlist features ka use kar sakte hain.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

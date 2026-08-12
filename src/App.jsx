@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VintageMusicExperience from "./components/VintageMusicExperience.jsx";
+import { appConfig } from "./data/config.js";
 import { parsePlaylistUrl } from "./utils/spotify.js";
 import { useYouTubePlaylist } from "./hooks/useYouTubePlaylist.js";
 import useVisitorCount from "./hooks/useVisitorCount.js";
+import { Analytics } from "@vercel/analytics/next"
 
 const ERROR_COPY = {
   empty: "Please paste a playlist link first.",
@@ -42,7 +44,7 @@ export default function App() {
     playerProps
   } = useYouTubePlaylist();
 
-  async function handlePlaylistSubmit(url) {
+  async function handlePlaylistSubmit(url, { minLoading = true } = {}) {
     setError(null);
     setInputValue(url);
     const parsed = parsePlaylistUrl(url);
@@ -52,7 +54,7 @@ export default function App() {
     }
     setPhase("loading");
     setShowPlaylist(false);
-    const result = await loadPlaylist(parsed.id);
+    const result = await loadPlaylist(parsed.id, { minLoading });
     if (result.ok) {
       setIsChanging(false);
       setPhase("player");
@@ -61,6 +63,17 @@ export default function App() {
       setPhase("intro");
     }
   }
+
+  useEffect(() => {
+    const defaultUrl = appConfig.defaultPlaylistUrl;
+    if (!defaultUrl) return;
+    handlePlaylistSubmit(defaultUrl, { minLoading: false });
+  }, []);
+
+  useEffect(() => {
+    if (!playlist?.name) return;
+    document.title = `${playlist.name} — ${appConfig.title} | A Little Memory`;
+  }, [playlist?.name]);
 
   function handleChangePlaylist() {
     setIsChanging(true);

@@ -73,6 +73,21 @@ await p2.waitForTimeout(1500);
 const input = p2.locator("#playlist-link");
 const submit = p2.getByRole("button", { name: "Load Playlist" });
 
+async function ensureIntro() {
+  const player = p2.locator('[aria-label="Music player"]');
+  for (let i = 0; i < 20; i++) {
+    if (await player.isVisible().catch(() => false)) {
+      await p2.getByRole("button", { name: "Change playlist" }).click();
+      await p2.waitForTimeout(1200);
+    }
+    if (await input.isVisible().catch(() => false)) return;
+    await p2.waitForTimeout(1500);
+  }
+  await input.waitFor({ state: "visible", timeout: 15000 });
+}
+
+await ensureIntro();
+
 async function expectError(caseName, value, expectedText) {
   await input.fill(value);
   await submit.click();
@@ -172,6 +187,19 @@ await p3.waitForTimeout(1500);
 
 const input3 = p3.locator("#playlist-link");
 const submit3 = p3.getByRole("button", { name: "Load Playlist" });
+
+{
+  const player = p3.locator('[aria-label="Music player"]');
+  for (let i = 0; i < 20; i++) {
+    if (await player.isVisible().catch(() => false)) {
+      await p3.getByRole("button", { name: "Change playlist" }).click();
+      await p3.waitForTimeout(1200);
+    }
+    if (await input3.isVisible().catch(() => false)) break;
+    await p3.waitForTimeout(1500);
+  }
+  await input3.waitFor({ state: "visible", timeout: 15000 });
+}
 
 await input3.fill("https://open.spotify.com/playlist/37i9dQZF1DWXRqgorJj26U");
 await submit3.click();
