@@ -18,7 +18,7 @@ npm run preview
 
 ## Images
 
-Optimize artwork again after replacing `image.png`:
+Optimize artwork again after replacing `baground.png` (desktop bg) and `Phone.png` (mobile bg):
 
 ```bash
 npm run images

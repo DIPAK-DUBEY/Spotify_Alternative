@@ -54,7 +54,3 @@ function validateId(id) {
   }
   return { ok: true, id, url: `https://open.spotify.com/playlist/${id}` };
 }
-
-export function shareUrl(id) {
-  return `https://open.spotify.com/playlist/${id}`;
-}

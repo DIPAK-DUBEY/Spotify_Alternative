@@ -14,9 +14,6 @@ export function useYouTubePlaylist() {
   const [tracks, setTracks] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isReady, setIsReady] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [progress, setProgress] = useState({ current: 0, duration: 0 });
   const [totalCount, setTotalCount] = useState(null);
   const [done, setDone] = useState(true);
@@ -92,8 +89,6 @@ export function useYouTubePlaylist() {
   }
 
   async function loadPlaylist(id) {
-    setIsLoading(true);
-    setError(null);
     setCurrentIndex(-1);
     setTracks([]);
     setPlaylist(null);
@@ -118,8 +113,6 @@ export function useYouTubePlaylist() {
     if (elapsed < MIN_LOADING_MS) {
       await sleep(MIN_LOADING_MS - elapsed);
     }
-
-    setIsLoading(false);
 
     if (!meta || !meta.ok) {
       return { ok: false, reason: !meta ? "network" : meta.reason };
@@ -314,19 +307,12 @@ export function useYouTubePlaylist() {
     controllerRef.current?.seekToFraction(fraction);
   }
 
-  function clearError() {
-    setError(null);
-  }
-
   return {
     playlist,
     tracks,
     currentTrack,
     currentIndex,
     isPlaying,
-    isReady,
-    isLoading,
-    error,
     progress,
     totalCount,
     done,
@@ -341,7 +327,6 @@ export function useYouTubePlaylist() {
     next,
     prev,
     seekToFraction,
-    clearError,
     playerProps: {
       videoId: currentTrack?.videoId || null,
       startSeconds: 0,
