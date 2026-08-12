@@ -65,6 +65,12 @@ const server = http.createServer(async (req, res) => {
 
   let path = decodeURIComponent(url.pathname);
   if (path === "/") path = "/index.html";
+
+  if (path.startsWith("/_vercel/")) {
+    res.writeHead(204);
+    return res.end();
+  }
+
   const file = normalize(join(ROOT, path));
   if (!file.startsWith(ROOT)) {
     res.writeHead(403);

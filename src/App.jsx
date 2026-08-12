@@ -4,7 +4,7 @@ import { appConfig } from "./data/config.js";
 import { parsePlaylistUrl } from "./utils/spotify.js";
 import { useYouTubePlaylist } from "./hooks/useYouTubePlaylist.js";
 import useVisitorCount from "./hooks/useVisitorCount.js";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react";
 
 const ERROR_COPY = {
   empty: "Please paste a playlist link first.",
@@ -88,41 +88,44 @@ export default function App() {
   }
 
   return (
-    <VintageMusicExperience
-      phase={phase}
-      isChanging={isChanging}
-      playlist={playlist}
-      currentTrack={currentTrack}
-      isPlaying={isPlaying}
-      progress={progress}
-      trackCount={tracks.length}
-      error={error}
-      inputValue={inputValue}
-      onInputChange={setInputValue}
-      onSubmit={handlePlaylistSubmit}
-      onChangePlaylist={handleChangePlaylist}
-      onCancelChange={handleCancelChange}
-      onToggle={toggle}
-      onNext={next}
-      onPrev={prev}
-      onSeekFraction={seekToFraction}
-      onShowPlaylist={() => setShowPlaylist(true)}
-      onClosePlaylist={() => setShowPlaylist(false)}
-      showPlaylist={showPlaylist}
-      onOpenFaq={() => setShowFaq(true)}
-      onCloseFaq={() => setShowFaq(false)}
-      showFaq={showFaq}
-      tracks={tracks}
-      currentIndex={currentIndex}
-      totalCount={totalCount}
-      canLoadMore={canLoadMore}
-      truncated={truncated}
-      isLoadingMore={isLoadingMore}
-      loadMoreError={loadMoreError}
-      onLoadMore={loadMore}
-      onPlayTrack={playTrack}
-      playerProps={playerProps}
-      visitorCount={visitorCount}
-    />
+    <>
+      <VintageMusicExperience
+        phase={phase}
+        isChanging={isChanging}
+        playlist={playlist}
+        currentTrack={currentTrack}
+        isPlaying={isPlaying}
+        progress={progress}
+        trackCount={tracks.length}
+        error={error}
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        onSubmit={handlePlaylistSubmit}
+        onChangePlaylist={handleChangePlaylist}
+        onCancelChange={handleCancelChange}
+        onToggle={toggle}
+        onNext={next}
+        onPrev={prev}
+        onSeekFraction={seekToFraction}
+        onShowPlaylist={() => setShowPlaylist(true)}
+        onClosePlaylist={() => setShowPlaylist(false)}
+        showPlaylist={showPlaylist}
+        onOpenFaq={() => setShowFaq(true)}
+        onCloseFaq={() => setShowFaq(false)}
+        showFaq={showFaq}
+        tracks={tracks}
+        currentIndex={currentIndex}
+        totalCount={totalCount}
+        canLoadMore={canLoadMore}
+        truncated={truncated}
+        isLoadingMore={isLoadingMore}
+        loadMoreError={loadMoreError}
+        onLoadMore={loadMore}
+        onPlayTrack={playTrack}
+        playerProps={playerProps}
+        visitorCount={visitorCount}
+      />
+      <Analytics />
+    </>
   );
 }
