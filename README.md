@@ -39,6 +39,19 @@ Zero keys, zero config. Ek `api/playlist.mjs` serverless function hai jo:
    (koi YouTube API key nahi chahiye)
 3. Full songs browser me chalti hain — koi login, koi Premium nahi
 
+## Visitor counter
+
+Top-center `N visits` counter Upstash Redis me count rakhta hai
+(`api/visits.mjs` — GET padhta hai, POST increment karta hai, har browser
+me ek baar hi count hota hai):
+
+1. [upstash.com](https://upstash.com) pe free Redis database banao
+2. Vercel → Project → Settings → Environment Variables me daalo:
+   - `UPSTASH_REDIS_REST_URL` (database ka REST URL)
+   - `UPSTASH_REDIS_REST_TOKEN` (REST token)
+3. Redeploy karo. Env vars ke bina counter silently hidden rehta hai —
+   baaki site normal chalti hai.
+
 ## Personalization
 
 Edit `src/data/config.js` — title, tagline, personal name, accent colors.

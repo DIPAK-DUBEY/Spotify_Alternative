@@ -2,6 +2,7 @@ import { useState } from "react";
 import VintageMusicExperience from "./components/VintageMusicExperience.jsx";
 import { parsePlaylistUrl } from "./utils/spotify.js";
 import { useYouTubePlaylist } from "./hooks/useYouTubePlaylist.js";
+import useVisitorCount from "./hooks/useVisitorCount.js";
 
 const ERROR_COPY = {
   empty: "Please paste a playlist link first.",
@@ -18,6 +19,7 @@ export default function App() {
   const [inputValue, setInputValue] = useState("");
   const [showPlaylist, setShowPlaylist] = useState(false);
   const [showFaq, setShowFaq] = useState(false);
+  const visitorCount = useVisitorCount();
   const {
     playlist,
     tracks,
@@ -109,6 +111,7 @@ export default function App() {
       onLoadMore={loadMore}
       onPlayTrack={playTrack}
       playerProps={playerProps}
+      visitorCount={visitorCount}
     />
   );
 }

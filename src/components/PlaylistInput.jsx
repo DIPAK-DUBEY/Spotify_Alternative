@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
-import TulipMark from "./TulipMark.jsx";
 import { appConfig } from "../data/config.js";
 
 export default function PlaylistInput({ isChanging, error, inputValue, onInputChange, onSubmit, onCancel, onOpenFaq }) {
-  const { prompt, personal } = appConfig;
+  const { prompt } = appConfig;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -82,10 +81,6 @@ export default function PlaylistInput({ isChanging, error, inputValue, onInputCh
         </motion.p>
       )}
 
-      <p className="mt-8 flex items-center gap-2 font-dev text-base text-ivory md:text-lg">
-        <TulipMark className="h-4 w-4 text-accent/80" />
-        <span>{personal.greeting}</span>
-      </p>
     </section>
   );
 }

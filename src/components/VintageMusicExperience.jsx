@@ -10,6 +10,7 @@ import MusicPlayer from "./MusicPlayer.jsx";
 import FaqPanel from "./FaqPanel.jsx";
 import TulipMark from "./TulipMark.jsx";
 import YouTubePlayer from "./YouTubePlayer.jsx";
+import VisitorCounter from "./VisitorCounter.jsx";
 import { appConfig } from "../data/config.js";
 
 const phaseTransition = { duration: 0.7, ease: [0.22, 1, 0.36, 1] };
@@ -47,7 +48,8 @@ export default function VintageMusicExperience({
   loadMoreError,
   onLoadMore,
   onPlayTrack,
-  playerProps
+  playerProps,
+  visitorCount
 }) {
   const { tagline, footer, personal } = appConfig;
   const isPlayer = phase === "player";
@@ -62,8 +64,9 @@ export default function VintageMusicExperience({
       <Vignette />
       <GrainOverlay />
       <YouTubePlayer {...playerProps} />
+      <VisitorCounter count={visitorCount} />
 
-      <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center px-5 pt-[max(env(safe-area-inset-top),1.5rem)] text-center md:items-start md:px-12 md:text-left">
+      <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center px-5 pt-[max(env(safe-area-inset-top),4rem)] text-center md:items-start md:px-12 md:pt-[max(env(safe-area-inset-top),1.5rem)] md:text-left">
         <div className="flex w-full flex-col items-center md:items-start">
           <p
             className={`text-balance font-serif2 italic text-shadow-cinematic text-ivory/95 transition-all duration-1000 ease-cin ${
@@ -72,17 +75,12 @@ export default function VintageMusicExperience({
           >
             {tagline}
           </p>
-          <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-[#120c08]/70 px-3.5 py-1 font-dev text-sm text-gold backdrop-blur-sm md:hidden">
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gradient-to-b from-[#24180F]/85 to-[#120C08]/80 px-3.5 py-1 font-dev text-sm text-gold shadow-md shadow-black/30 backdrop-blur-md md:mt-5 md:self-center md:px-4 md:py-1.5 md:text-base">
             <TulipMark className="h-3.5 w-3.5 text-accent/90" />
             <span>{personal.greeting}</span>
           </p>
         </div>
       </header>
-
-      <div className="absolute right-4 top-[max(env(safe-area-inset-top),1.6rem)] z-20 hidden items-center gap-2 rounded-full border border-gold/30 bg-[#120c08]/70 px-4 py-1.5 backdrop-blur-sm md:flex md:right-8">
-        <TulipMark className="h-3.5 w-3.5 text-accent/90" />
-        <span className="font-dev text-base text-gold md:text-lg">For {personal.name}</span>
-      </div>
 
       <AnimatePresence mode="wait">
         {phase === "intro" && (

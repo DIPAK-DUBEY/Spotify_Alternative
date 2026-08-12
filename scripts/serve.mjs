@@ -6,6 +6,19 @@ import { fileURLToPath } from "node:url";
 const ROOT = fileURLToPath(new URL("../dist/", import.meta.url));
 const PORT = Number(process.env.PORT || 4173);
 
+for (const key of ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"]) {
+  if (process.env[key]) continue;
+  try {
+    const raw = await readFile(new URL("../.env", import.meta.url), "utf8");
+    for (const line of raw.split(/\r?\n/)) {
+      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+      if (m && m[1] === key) process.env[key] = m[2].trim();
+    }
+  } catch {
+    /* no .env — fine */
+  }
+}
+
 const MIME = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -22,7 +35,11 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost");
 
   if (url.pathname.startsWith("/api/")) {
-    const { default: handler } = await import("../api/playlist.mjs");
+    const mod =
+      url.pathname.startsWith("/api/visits")
+        ? "../api/visits.mjs"
+        : "../api/playlist.mjs";
+    const { default: handler } = await import(mod);
     const vercelRes = {
       statusCode: 200,
       headers: {},
