@@ -14,6 +14,11 @@ export default function AdSlot({ code, className = "" }) {
     const doc = new DOMParser().parseFromString(activeCode, "text/html");
     const scripts = Array.from(doc.querySelectorAll("script"));
 
+    const body = doc.body.cloneNode(true);
+    body.querySelectorAll("script").forEach((s) => s.remove());
+    const inert = body.innerHTML.trim();
+    if (inert) container.innerHTML = inert;
+
     for (const script of scripts) {
       const el = document.createElement("script");
       if (script.src) el.src = script.src;
@@ -24,10 +29,6 @@ export default function AdSlot({ code, className = "" }) {
         if (attr.name !== "src") el.setAttribute(attr.name, attr.value);
       }
       container.appendChild(el);
-    }
-
-    if (scripts.length === 0 && doc.body.innerHTML.trim()) {
-      container.innerHTML = doc.body.innerHTML;
     }
 
     return () => {

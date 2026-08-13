@@ -246,7 +246,7 @@ export default function MusicPlayer({
         </div>
 
         <div className="pointer-events-auto w-full max-w-[320px]">
-          <AdSlot />
+          <AdSlot code={appConfig.ads?.playerBannerCode} />
         </div>
       </div>
     </section>

@@ -6,8 +6,22 @@ export const appConfig = {
   loadingText: "Gathering your memories…",
   footer: "made with memories",
   ads: {
-    enabled: false,
-    bannerCode: "",
+    enabled: true,
+    bannerCode: `
+<script src="https://pl30826929.effectivecpmnetwork.com/01/f9/d3/01f9d31d72ec4b2bbec3b155f78db0ee.js"></script>
+<script>
+  atOptions = {
+    'key' : '2f632e861caf8a148ec3bc63d2394cc3',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/2f632e861caf8a148ec3bc63d2394cc3/invoke.js"></script>`,
+    playerBannerCode: `
+<script async="async" data-cfasync="false" src="https://pl30826931.effectivecpmnetwork.com/9ba21b6787a9eac5f6edbc3f6884c0d3/invoke.js"></script>
+<div id="container-9ba21b6787a9eac5f6edbc3f6884c0d3"></div>`,
     infeedCode: "",
     infeedEvery: 6
   },
