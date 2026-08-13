@@ -6,6 +6,7 @@ import androidx.annotation.OptIn
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
@@ -90,7 +91,8 @@ class PlayerService : MediaSessionService() {
             }
             if (player.currentMediaItem?.mediaId == videoId) {
                 val updated = item.buildUpon().setUri(url).build()
-                val items = player.mediaItems.toMutableList()
+                val items = (0 until player.mediaItemCount).map { i -> player.getMediaItemAt(i)!! }
+                    .toMutableList()
                 items[index] = updated
                 player.setMediaItems(items, index, player.currentPosition)
                 player.play()
