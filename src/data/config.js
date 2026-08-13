@@ -21,7 +21,17 @@ export const appConfig = {
     playerBannerCode: `
 <script async="async" data-cfasync="false" src="https://pl30826931.effectivecpmnetwork.com/9ba21b6787a9eac5f6edbc3f6884c0d3/invoke.js"></script>
 <div id="container-9ba21b6787a9eac5f6edbc3f6884c0d3"></div>`,
-    infeedCode: "",
+    infeedCode: `
+<script>
+  atOptions = {
+    'key' : '2f632e861caf8a148ec3bc63d2394cc3',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/2f632e861caf8a148ec3bc63d2394cc3/invoke.js"></script>`,
     infeedEvery: 6
   },
   artworkDesktop: "/assets/baground.webp",
