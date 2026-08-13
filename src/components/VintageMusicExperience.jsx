@@ -171,8 +171,14 @@ export default function VintageMusicExperience({
       <FaqPanel open={showFaq} onClose={onCloseFaq} />
 
       {!isPlayer && (
-        <footer className="pointer-events-none absolute inset-x-0 bottom-0 z-20 pb-[max(env(safe-area-inset-bottom),1rem)] text-center">
+        <footer className="pointer-events-none absolute inset-x-0 bottom-0 z-20 pb-[max(env(safe-area-inset-bottom),0.9rem)] text-center">
           <p className="font-hand text-base text-shadow-cinematic text-cream/65">{footer}</p>
+          <a
+            href="#/privacy"
+            className="pointer-events-auto mt-1 inline-block font-hand text-xs text-cream/50 underline-offset-4 transition-colors duration-200 hover:text-cream/85"
+          >
+            Privacy Policy
+          </a>
         </footer>
       )}
 

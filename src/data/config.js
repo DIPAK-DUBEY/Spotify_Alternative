@@ -5,6 +5,12 @@ export const appConfig = {
   playlistLabel: "Your memories",
   loadingText: "Gathering your memories…",
   footer: "made with memories",
+  ads: {
+    enabled: false,
+    bannerCode: "",
+    infeedCode: "",
+    infeedEvery: 6
+  },
   artworkDesktop: "/assets/baground.webp",
   artworkMobile: "/assets/phone-bg.webp",
   artworkMobile2x: "/assets/phone-bg@2x.webp",

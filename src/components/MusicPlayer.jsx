@@ -1,4 +1,5 @@
 import { appConfig } from "../data/config.js";
+import AdSlot from "./AdSlot.jsx";
 
 function Vinyl({ artwork, isPlaying }) {
   return (
@@ -95,7 +96,8 @@ export default function MusicPlayer({
       aria-label="Music player"
       className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex justify-center px-3 pb-[max(env(safe-area-inset-bottom),0.9rem)] md:px-10 md:pb-9"
     >
-      <div className="vintage-frame pointer-events-auto w-full max-w-md rounded-xl border-sand/40 px-3.5 py-3 backdrop-blur-md md:max-w-2xl md:px-6 md:py-4">
+      <div className="flex w-full max-w-md flex-col items-center gap-2 md:max-w-2xl">
+        <div className="vintage-frame pointer-events-auto w-full rounded-xl border-sand/40 px-3.5 py-3 backdrop-blur-md md:px-6 md:py-4">
         <div className="flex items-center gap-3 md:gap-4">
           <Vinyl artwork={artwork} isPlaying={isPlaying} />
 
@@ -241,6 +243,11 @@ export default function MusicPlayer({
               : loadMoreError}
           </p>
         )}
+        </div>
+
+        <div className="pointer-events-auto w-full max-w-[320px]">
+          <AdSlot />
+        </div>
       </div>
     </section>
   );

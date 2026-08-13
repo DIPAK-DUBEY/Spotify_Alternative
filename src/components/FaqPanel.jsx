@@ -16,8 +16,8 @@ const FAQ_ITEMS = [
     a: "No login needed. Your songs play right here, without opening Spotify."
   },
   {
-    q: "Is the music really ad-free?",
-    a: "Yes — your songs play from start to finish, with no ads interrupting them."
+    q: "Will ads interrupt my music?",
+    a: "No — your songs always play from start to finish. The site shows ads in the page itself, never over the music."
   },
   {
     q: "How do I choose a song?",

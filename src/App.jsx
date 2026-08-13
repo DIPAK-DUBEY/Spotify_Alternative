@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import VintageMusicExperience from "./components/VintageMusicExperience.jsx";
+import PrivacyPage from "./components/PrivacyPage.jsx";
 import { appConfig } from "./data/config.js";
 import { parsePlaylistUrl } from "./utils/spotify.js";
 import { useYouTubePlaylist } from "./hooks/useYouTubePlaylist.js";
@@ -64,6 +65,16 @@ export default function App() {
     }
   }
 
+  const [showPrivacy, setShowPrivacy] = useState(
+    () => window.location.hash === "#/privacy"
+  );
+
+  useEffect(() => {
+    const onHash = () => setShowPrivacy(window.location.hash === "#/privacy");
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
   useEffect(() => {
     const defaultUrl = appConfig.defaultPlaylistUrl;
     if (!defaultUrl) return;
@@ -85,6 +96,18 @@ export default function App() {
   function handleCancelChange() {
     setIsChanging(false);
     setPhase("player");
+  }
+
+  if (showPrivacy) {
+    return (
+      <>
+        <PrivacyPage onClose={() => {
+          window.location.hash = "";
+          setShowPrivacy(false);
+        }} />
+        <Analytics />
+      </>
+    );
   }
 
   return (

@@ -1,6 +1,8 @@
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import TulipMark from "./TulipMark.jsx";
+import AdSlot from "./AdSlot.jsx";
+import { appConfig } from "../data/config.js";
 
 function formatTime(seconds) {
   if (!Number.isFinite(seconds) || seconds < 0) return "--:--";
@@ -151,10 +153,19 @@ export default function PlaylistPanel({
               ) : (
                 tracks.map((track, index) => {
                 const isCurrent = index === currentIndex;
+                const infeedEvery = Math.max(0, appConfig.ads?.infeedEvery || 0);
+                const showAd = infeedEvery > 0 && index % infeedEvery === 0;
                 return (
+                <Fragment key={track.videoId || index}>
+                {showAd && (
+                  <div className="pointer-events-none px-2 py-1.5">
+                    <div className="pointer-events-auto overflow-hidden rounded-lg bg-cream/[0.04] p-1.5">
+                      <AdSlot code={appConfig.ads?.infeedCode} />
+                    </div>
+                  </div>
+                )}
                   <motion.button
                     type="button"
-                    key={track.videoId || index}
                     data-index={index}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -197,6 +208,7 @@ export default function PlaylistPanel({
                       {formatTime(track.videoDuration)}
                     </span>
                   </motion.button>
+                </Fragment>
                 );
                 })
               )}

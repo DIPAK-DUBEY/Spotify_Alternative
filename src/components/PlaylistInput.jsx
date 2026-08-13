@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { appConfig } from "../data/config.js";
+import AdSlot from "./AdSlot.jsx";
 
 export default function PlaylistInput({ isChanging, error, inputValue, onInputChange, onSubmit, onCancel, onOpenFaq }) {
   const { prompt } = appConfig;
@@ -10,9 +11,9 @@ export default function PlaylistInput({ isChanging, error, inputValue, onInputCh
   }
 
   return (
-    <section className="absolute inset-0 flex flex-col items-center justify-center px-6">
+    <section className="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto px-6 py-8">
       <p className="max-w-sm text-balance text-center font-serif2 text-shadow-cinematic text-[clamp(1.15rem,4.5vw,1.6rem)] italic leading-snug text-ivory md:max-w-md">
-        Ad-free music from your Spotify playlist.
+        Music from any Spotify playlist — no login needed.
       </p>
 
       <div className="mt-5 flex items-center gap-2">
@@ -80,6 +81,10 @@ export default function PlaylistInput({ isChanging, error, inputValue, onInputCh
           {error}
         </motion.p>
       )}
+
+      <div className="mt-6 w-full max-w-sm">
+        <AdSlot />
+      </div>
 
     </section>
   );
