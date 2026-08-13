@@ -8,7 +8,6 @@ export const appConfig = {
   ads: {
     enabled: true,
     bannerCode: `
-<script src="https://pl30826929.effectivecpmnetwork.com/01/f9/d3/01f9d31d72ec4b2bbec3b155f78db0ee.js"></script>
 <script>
   atOptions = {
     'key' : '2f632e861caf8a148ec3bc63d2394cc3',
