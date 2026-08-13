@@ -114,19 +114,18 @@ class MainActivity : AppCompatActivity() {
         if (controllerFuture != null) return
 
         val token = SessionToken(this, ComponentName(this, PlayerService::class.java))
-        val future = MediaController.Builder(this, token)
-            .setListenerAsync(controllerListener)
-            .buildAsync()
+        val future = MediaController.Builder(this, token).buildAsync()
         controllerFuture = future
         future.addListener({
             runCatching {
                 val c = future.get()
                 controller = c
+                c.addListener(controllerListener)
                 val p = pendingPlay
                 pendingPlay = {}
                 p(c)
                 updateMiniPlayer()
-            }
+            }.onFailure { controllerFuture = null }
         }, getMainExecutor(this))
     }
 

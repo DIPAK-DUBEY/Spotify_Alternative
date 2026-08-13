@@ -7,8 +7,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.session.DefaultMediaNotificationProvider
-import androidx.media3.common.util.UnstableApi
 import androidx.media3.session.MediaSession
 import androidx.media3.session.MediaSessionService
 import kotlinx.coroutines.CoroutineScope
@@ -57,10 +55,6 @@ class PlayerService : MediaSessionService() {
             Intent(this, MainActivity::class.java),
             PendingIntent.FLAG_IMMUTABLE
         )
-        val provider = DefaultMediaNotificationProvider.Builder(this)
-            .setSmallIcon(R.drawable.ic_stat_music)
-            .build()
-        setMediaNotificationProvider(provider)
         mediaSession = MediaSession.Builder(this, player)
             .setSessionActivity(sessionActivity)
             .build()
@@ -96,7 +90,9 @@ class PlayerService : MediaSessionService() {
             }
             if (player.currentMediaItem?.mediaId == videoId) {
                 val updated = item.buildUpon().setUri(url).build()
-                player.setMediaItem(index, updated)
+                val items = player.mediaItems.toMutableList()
+                items[index] = updated
+                player.setMediaItems(items, index, player.currentPosition)
                 player.play()
             }
             prewarmNext(index + 1)

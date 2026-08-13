@@ -49,11 +49,11 @@ class TrackAdapter(
     }
 
     private fun formatDuration(track: Track): String {
-        val sec = track.durationMs?.takeIf { it > 0 }?.div(1000)
-            ?: track.videoDuration?.takeIf { it > 0 }
+        val sec: Long = track.durationMs?.takeIf { it > 0 }?.div(1000)
+            ?: track.videoDuration?.takeIf { it > 0 }?.toLong()
             ?: return ""
-        val m = sec / 60
-        val s = sec % 60
+        val m = sec / 60L
+        val s = sec % 60L
         return "%d:%02d".format(m, s)
     }
 }
